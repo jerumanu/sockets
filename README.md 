@@ -1,0 +1,113 @@
+# Algo Server is a socket-based application that facilitates real-time communication between clients and servers using Socket. 
+
+
+[![Python 3.12](https://img.shields.io/badge/python-3.12-blue.svg)](https://www.python.org/downloads/release/python-3110/)
+[![Black code style](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/ambv/black)
+
+
+## Basic Commands
+
+
+
+#### Running tests with unittests
+
+    $ pytest
+
+## Deployment
+
+---
+
+The following details how to deploy this application.
+
+### Locally
+
+Create virtualenv
+
+```python3 -m venv venv 
+```
+
+Activate virtualenv
+
+```source venv/bin/activate
+```
+
+- Python Dependencies
+
+```shell
+    pip install -r requirements.txt
+```
+
+```
+
+
+Run server
+
+> When running the server locally, ensure the configuration file (server_config.cfg) is set up correctly. 
+If SSL is enabled, make sure the SSL certificates are available. To start the server, 
+simply run the server.py script, which will bind to the specified port.
+
+```
+cd server/
+python3 server.py
+``` 
+
+Running client 
+> When running the client script, ensure the server is already running on localhost at port 9997. 
+The client connects to the server, sends the query string ("banana"), and receives a response.
+
+```
+cd client\
+python3 client.py
+```
+
+### Production
+
+#### Running daemon service 
+
+- Create a systemd Service File
+```
+sudo nano /etc/systemd/system/search_server.service
+``
+-Reload systemd and Start the Service
+
+```
+sudo systemctl daemon-reload
+sudo systemctl start search_server.service
+sudo systemctl enable search_server.service
+```
+-Check Service Status
+```
+sudo systemctl status search_server.service
+
+```
+-Stop and Restart the Service
+
+```
+sudo systemctl stop search_server.service
+sudo systemctl restart search_server.service
+```
+
+#### Creating deamon server with bash script
+```
+sh intsll.sh
+```
+
+## setting ssl
+
+#### Create a Private Key
+```
+openssl genrsa -out server.key 2048
+
+```
+#### Create a Certificate Signing Request (CSR)
+```
+openssl req -new -key server.key -out server.csr
+
+```
+#### Generate a Self-Signed Certificate
+
+```
+openssl x509 -req -days 365 -in server.csr -signkey server.key -out server.crt
+```
+
+
